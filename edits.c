@@ -1,3 +1,17 @@
+void display(){
+	char* date_buffer[50];
+	char* time_buffer[50];
+	clr_lcd();
+
+	sprintf(date_buffer, "%02d,%02d,%04d",lcd_date.month,lcd_date.day,lcd_date.year);
+	pos_lcd(0,0);
+	puts_lcd2(date_buffer);
+
+	sprintf(time_buffer, "%02d,%02d,%02d",lcd_time.hour,lcd_time.minute,lcd_time.second);
+	pos_lcd(1,0);
+	puts_lcd2(time_buffer);
+}
+
 unsigned char setting(){
 	unsigned char k = 0;
 	unsigned char j = 0;
@@ -41,6 +55,9 @@ unsigned short setting_short(){
 
 void edit_month(){
 	unsigned char m = 0;
+	unsigned char n = lcd_date.month;
+	lcd_date.month = 99;
+	display();
 	m = setting();
 	if(m != 0){
 		if(m > 12)
@@ -49,12 +66,17 @@ void edit_month(){
 			lcd_date.month = m;
 	}
 	else{
+		lcd_date.month = n;
+		display();
 		edit_day;
 	}
 }
 
 void edit_day(){
 	unsigned char m = 0;
+	unsigned char n = lcd_date.day;
+	lcd_date.day = 99;
+	display();
 	m = setting();
 	if(m != 0){
 		if(m > 30)
@@ -63,32 +85,27 @@ void edit_day(){
 			lcd_date.month = m;
 	}
 	else{
+		lcd_date.day = n;
+		display();
 		edit_year;
 	}
 }
 
 void edit_year(){
 	unsigned short m = 0;
+	unsigned short n = lcd_date.year;
+	lcd_date.year = 9999;
+	display();
 	m = setting_short();
 	if(m != 0){
 		lcd_date.month = m;
 	}
-}
-
-void edit_day(){
-	unsigned char new = 99;
-    unsigned char k;
-    k = get_key();
-    if(k == 4){
-    	edit_year();
-    }
-    else{
-    	while(new > 12){
-    		new = setting();
-    	}
-    	lcd_date.day = new;
+	else{
+		lcd_date.year = n;
+		display();
 	}
 }
+
 
 
 void enter_ui(){
