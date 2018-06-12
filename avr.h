@@ -16,6 +16,6 @@
 #define RST() for(;;);
 
 void ini_avr(void);
-void wait_avr(unsigned short msec);
+void wait_avr(unsigned int msec);
 
 #endif
